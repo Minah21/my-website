@@ -1,2 +1,237 @@
-<h1 style="color:red">hello</h1>
-<button>Click me!!!!</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Minah · HR Manager</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #faf6f1;
+      --surface: #ffffff;
+      --ink: #2a1f24;
+      --muted: #6f6168;
+      --accent: #b3263e;
+      --accent-soft: #f6e3e6;
+      --line: #eadfd8;
+      --shadow: 0 10px 30px rgba(42, 31, 36, 0.08);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: "DM Sans", sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      line-height: 1.7;
+    }
+    a { color: inherit; }
+    .wrap { max-width: 1040px; margin: 0 auto; padding: 0 24px; }
+
+    /* Nav */
+    nav {
+      position: sticky; top: 0; z-index: 10;
+      background: rgba(250, 246, 241, 0.85);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--line);
+    }
+    nav .wrap { display: flex; justify-content: space-between; align-items: center; height: 64px; }
+    .logo { font-family: "Cormorant Garamond", serif; font-size: 1.6rem; font-weight: 600; text-decoration: none; }
+    .logo span { color: var(--accent); }
+    nav ul { display: flex; gap: 28px; list-style: none; }
+    nav ul a { text-decoration: none; font-size: 0.92rem; color: var(--muted); transition: color .2s; }
+    nav ul a:hover { color: var(--accent); }
+
+    /* Hero */
+    .hero { padding: 110px 0 90px; text-align: center; position: relative; overflow: hidden; }
+    .hero::before {
+      content: ""; position: absolute; width: 520px; height: 520px; border-radius: 50%;
+      background: radial-gradient(circle, var(--accent-soft) 0%, transparent 70%);
+      top: -120px; left: 50%; transform: translateX(-50%); z-index: -1;
+    }
+    .eyebrow {
+      display: inline-block; font-size: 0.8rem; letter-spacing: .18em; text-transform: uppercase;
+      color: var(--accent); background: var(--accent-soft); padding: 6px 16px; border-radius: 999px; margin-bottom: 26px;
+    }
+    h1 {
+      font-family: "Cormorant Garamond", serif; font-weight: 600;
+      font-size: clamp(3.2rem, 9vw, 6rem); line-height: 1.05; color: var(--accent);
+    }
+    h1 em { color: var(--ink); font-style: italic; }
+    .hero p.role { font-size: 1.15rem; color: var(--muted); margin: 18px 0 38px; }
+    .hero p.role strong { color: var(--ink); }
+
+    .btn {
+      display: inline-block; font: 500 1rem "DM Sans", sans-serif; cursor: pointer;
+      padding: 15px 34px; border-radius: 999px; border: none; text-decoration: none;
+      background: var(--accent); color: #fff; box-shadow: 0 8px 20px rgba(179, 38, 62, .25);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .btn:hover { transform: translateY(-3px); box-shadow: 0 12px 26px rgba(179, 38, 62, .32); }
+    .btn.ghost { background: transparent; color: var(--ink); border: 1.5px solid var(--line); box-shadow: none; margin-left: 10px; }
+    .btn.ghost:hover { border-color: var(--accent); color: var(--accent); }
+
+    /* Sections */
+    section { padding: 80px 0; }
+    .section-label { font-size: 0.8rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    h2 { font-family: "Cormorant Garamond", serif; font-size: clamp(2.2rem, 5vw, 3rem); font-weight: 600; line-height: 1.15; margin-bottom: 22px; }
+
+    .about-grid { display: grid; grid-template-columns: 1fr 1.4fr; gap: 56px; align-items: center; }
+    .portrait {
+      aspect-ratio: 4/5; border-radius: 24px; box-shadow: var(--shadow);
+      background: linear-gradient(150deg, var(--accent) 0%, #6d1a2b 100%);
+      display: flex; align-items: center; justify-content: center;
+      font-family: "Cormorant Garamond", serif; font-size: 7rem; color: rgba(255,255,255,.9);
+    }
+    .about-grid p { color: var(--muted); margin-bottom: 16px; }
+
+    .cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 22px; margin-top: 36px; }
+    .card {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+      padding: 30px 26px; transition: transform .25s, box-shadow .25s;
+    }
+    .card:hover { transform: translateY(-6px); box-shadow: var(--shadow); }
+    .card .icon {
+      width: 48px; height: 48px; border-radius: 14px; background: var(--accent-soft);
+      display: flex; align-items: center; justify-content: center; font-size: 1.4rem; margin-bottom: 18px;
+    }
+    .card h3 { font-size: 1.1rem; margin-bottom: 8px; }
+    .card p { color: var(--muted); font-size: 0.95rem; }
+
+    .experience { background: var(--surface); border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+    .timeline { border-left: 2px solid var(--line); margin-top: 30px; padding-left: 32px; }
+    .item { position: relative; padding-bottom: 36px; }
+    .item:last-child { padding-bottom: 0; }
+    .item::before {
+      content: ""; position: absolute; left: -41px; top: 6px; width: 16px; height: 16px;
+      border-radius: 50%; background: var(--accent); border: 4px solid var(--surface); box-shadow: 0 0 0 2px var(--accent);
+    }
+    .item .when { font-size: 0.85rem; color: var(--accent); font-weight: 500; }
+    .item h3 { font-size: 1.15rem; margin: 2px 0 4px; }
+    .item .where { color: var(--muted); font-size: 0.95rem; margin-bottom: 8px; }
+    .item p { color: var(--muted); font-size: 0.95rem; }
+
+    .contact { text-align: center; }
+    .contact p { color: var(--muted); max-width: 520px; margin: 0 auto 32px; }
+    .contact-links { display: flex; justify-content: center; gap: 14px; flex-wrap: wrap; }
+
+    footer { text-align: center; padding: 30px 0; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
+
+    /* Fade-in */
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
+    .reveal.visible { opacity: 1; transform: none; }
+
+    @media (max-width: 760px) {
+      nav ul { display: none; }
+      .about-grid { grid-template-columns: 1fr; gap: 32px; }
+      .portrait { max-width: 280px; margin: 0 auto; width: 100%; }
+      .cards { grid-template-columns: 1fr; }
+      .btn.ghost { margin: 12px 0 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="wrap">
+      <a href="#" class="logo">Minah<span>.</span></a>
+      <ul>
+        <li><a href="#about">About</a></li>
+        <li><a href="#expertise">Expertise</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <header class="hero">
+    <div class="wrap">
+      <span class="eyebrow">Human Resources</span>
+      <h1>Hello, I'm <em>Minah</em></h1>
+      <p class="role">Human Resources Manager at <strong>A.W. LAW LLC</strong></p>
+      <a href="#contact" class="btn">Click me to say hi ✨</a>
+      <a href="#about" class="btn ghost">Learn more</a>
+    </div>
+  </header>
+
+  <section id="about">
+    <div class="wrap about-grid reveal">
+      <div class="portrait">M</div>
+      <div>
+        <p class="section-label">About me</p>
+        <h2>Building a workplace where people can do their best work.</h2>
+        <p>I'm the Human Resources Manager at A.W. LAW LLC, where I look after our people at every stage of their journey, from the first interview to their growth and development within the firm.</p>
+        <p>I believe great firms are built by people who feel supported, heard and valued. My work is about creating the policies, culture and everyday care that make that possible.</p>
+      </div>
+    </div>
+  </section>
+
+  <section id="expertise">
+    <div class="wrap reveal">
+      <p class="section-label">What I do</p>
+      <h2>Areas of expertise</h2>
+      <div class="cards">
+        <div class="card">
+          <div class="icon">🤝</div>
+          <h3>Talent Acquisition</h3>
+          <p>Finding and welcoming the right people, with a smooth, thoughtful hiring and onboarding experience.</p>
+        </div>
+        <div class="card">
+          <div class="icon">🌱</div>
+          <h3>People Development</h3>
+          <p>Supporting growth through training, performance conversations and clear career pathways.</p>
+        </div>
+        <div class="card">
+          <div class="icon">⚖️</div>
+          <h3>Employee Relations</h3>
+          <p>Fair, consistent HR policies and a trusted ear for colleagues when they need one.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="experience" class="experience">
+    <div class="wrap reveal">
+      <p class="section-label">Experience</p>
+      <h2>My journey</h2>
+      <div class="timeline">
+        <div class="item">
+          <div class="when">20XX – Present</div>
+          <h3>Human Resources Manager</h3>
+          <div class="where">A.W. LAW LLC</div>
+          <p>Leading HR for the firm across recruitment, employee relations, policy and people development.</p>
+        </div>
+        <div class="item">
+          <div class="when">20XX – 20XX</div>
+          <h3>Your previous role</h3>
+          <div class="where">Previous company</div>
+          <p>A short line about what you did and achieved here.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="contact" class="contact">
+    <div class="wrap reveal">
+      <p class="section-label">Get in touch</p>
+      <h2>Let's connect</h2>
+      <p>Whether it's about opportunities at the firm or just a chat about all things HR, I'd love to hear from you.</p>
+      <div class="contact-links">
+        <a href="mailto:you@example.com" class="btn">Email me</a>
+        <a href="https://www.linkedin.com/" target="_blank" class="btn ghost">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer>© <span id="year"></span> Minah · Human Resources Manager, A.W. LAW LLC</footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
+    }, { threshold: 0.15 });
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+  </script>
+</body>
+</html>
