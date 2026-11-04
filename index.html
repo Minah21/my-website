@@ -118,12 +118,106 @@
 
     footer { text-align: center; padding: 30px 0; color: var(--muted); font-size: 0.85rem; border-top: 1px solid var(--line); }
 
+    /* Nav dropdown + mobile menu */
+    nav ul li { position: relative; }
+    .dropdown-toggle {
+      background: none; border: none; font: inherit; font-size: 0.92rem; color: var(--muted);
+      cursor: pointer; display: inline-flex; align-items: center; gap: 6px; padding: 0; transition: color .2s;
+    }
+    .dropdown-toggle:hover, .dropdown.open .dropdown-toggle { color: var(--accent); }
+    .dropdown-toggle .caret { font-size: .7rem; transition: transform .2s; }
+    .dropdown.open .caret { transform: rotate(180deg); }
+    .dropdown-menu {
+      position: absolute; top: calc(100% + 14px); left: 50%; transform: translateX(-50%) translateY(-6px);
+      min-width: 210px; background: var(--surface); border: 1px solid var(--line); border-radius: 14px;
+      box-shadow: var(--shadow); padding: 8px; list-style: none; display: block;
+      opacity: 0; visibility: hidden; transition: opacity .2s, transform .2s, visibility .2s;
+    }
+    .dropdown.open .dropdown-menu { opacity: 1; visibility: visible; transform: translateX(-50%) translateY(0); }
+    .dropdown-menu a { display: block; padding: 9px 14px; border-radius: 9px; color: var(--ink); }
+    .dropdown-menu a:hover { background: var(--accent-soft); color: var(--accent); }
+    .menu-btn {
+      display: none; background: none; border: 1.5px solid var(--line); border-radius: 10px;
+      width: 42px; height: 38px; font-size: 1.2rem; cursor: pointer; color: var(--ink);
+    }
+
+    /* Read-more panels on cards */
+    .card details { margin-top: 14px; }
+    .card summary {
+      cursor: pointer; list-style: none; color: var(--accent); font-weight: 500; font-size: .9rem;
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .card summary::-webkit-details-marker { display: none; }
+    .card summary::after { content: "▾"; font-size: .75rem; transition: transform .2s; }
+    .card details[open] summary::after { transform: rotate(180deg); }
+    .card details ul { margin: 10px 0 0 18px; color: var(--muted); font-size: .9rem; }
+
+    /* Careers */
+    .careers-box {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+      padding: 40px; box-shadow: var(--shadow); display: grid; grid-template-columns: 1.3fr 1fr; gap: 40px; align-items: center;
+    }
+    .careers-box p { color: var(--muted); }
+    .careers-box p.section-label { color: var(--accent); }
+    .field label { display: block; font-size: .85rem; font-weight: 500; margin-bottom: 8px; }
+    .select {
+      width: 100%; appearance: none; font: inherit; color: var(--ink); background: var(--bg)
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23b3263e' stroke-width='2' fill='none'/%3E%3C/svg%3E") no-repeat right 16px center;
+      border: 1.5px solid var(--line); border-radius: 12px; padding: 13px 44px 13px 16px; cursor: pointer; margin-bottom: 16px;
+    }
+    .select:focus { outline: none; border-color: var(--accent); }
+    .btn-row { display: flex; gap: 12px; flex-wrap: wrap; }
+    .btn-row .btn.ghost { margin-left: 0; }
+    .btn.small { padding: 12px 24px; font-size: .92rem; }
+
+    /* FAQ */
+    .faq { max-width: 760px; }
+    .faq details {
+      background: var(--surface); border: 1px solid var(--line); border-radius: 16px;
+      margin-bottom: 12px; transition: box-shadow .2s;
+    }
+    .faq details[open] { box-shadow: var(--shadow); }
+    .faq summary {
+      cursor: pointer; list-style: none; padding: 20px 24px; font-weight: 500;
+      display: flex; justify-content: space-between; align-items: center; gap: 16px;
+    }
+    .faq summary::-webkit-details-marker { display: none; }
+    .faq summary::after {
+      content: "+"; flex-shrink: 0; width: 28px; height: 28px; border-radius: 50%;
+      background: var(--accent-soft); color: var(--accent); display: grid; place-items: center;
+      font-size: 1.1rem; transition: transform .2s;
+    }
+    .faq details[open] summary::after { transform: rotate(45deg); }
+    .faq details p { padding: 0 24px 20px; color: var(--muted); }
+
+    /* Back to top */
+    .to-top {
+      position: fixed; right: 22px; bottom: 22px; width: 48px; height: 48px; border-radius: 50%;
+      border: none; background: var(--accent); color: #fff; font-size: 1.2rem; cursor: pointer;
+      box-shadow: 0 8px 20px rgba(179, 38, 62, .3); opacity: 0; visibility: hidden;
+      transform: translateY(10px); transition: opacity .25s, transform .25s, visibility .25s; z-index: 20;
+    }
+    .to-top.show { opacity: 1; visibility: visible; transform: none; }
+    .to-top:hover { transform: translateY(-3px); }
+
     /* Fade-in */
     .reveal { opacity: 0; transform: translateY(24px); transition: opacity .7s ease, transform .7s ease; }
     .reveal.visible { opacity: 1; transform: none; }
 
     @media (max-width: 760px) {
-      nav ul { display: none; }
+      .menu-btn { display: block; }
+      nav ul.nav-links {
+        display: none; position: absolute; top: 64px; left: 0; right: 0; flex-direction: column; gap: 4px;
+        background: var(--bg); border-bottom: 1px solid var(--line); padding: 12px 24px 20px;
+      }
+      nav ul.nav-links.open { display: flex; }
+      nav ul.nav-links > li > a, .dropdown-toggle { display: block; padding: 10px 0; }
+      .dropdown-menu {
+        position: static; transform: none; box-shadow: none; border: none; background: var(--accent-soft);
+        display: none; opacity: 1; visibility: visible; margin-top: 4px;
+      }
+      .dropdown.open .dropdown-menu { display: block; transform: none; }
+      .careers-box { grid-template-columns: 1fr; padding: 28px; gap: 24px; }
       .about-grid { grid-template-columns: 1fr; gap: 32px; }
       .portrait { max-width: 280px; margin: 0 auto; width: 100%; }
       .cards { grid-template-columns: 1fr; }
@@ -136,10 +230,24 @@
   <nav>
     <div class="wrap">
       <a href="#" class="logo">Minah<span>.</span></a>
-      <ul>
+      <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false">☰</button>
+      <ul class="nav-links" id="navLinks">
         <li><a href="#about">About</a></li>
-        <li><a href="#expertise">Expertise</a></li>
-        <li><a href="#experience">Experience</a></li>
+        <li class="dropdown">
+          <button class="dropdown-toggle" aria-expanded="false">What I do <span class="caret">▾</span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#expertise">Areas of expertise</a></li>
+            <li><a href="#experience">My journey</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <button class="dropdown-toggle" aria-expanded="false">The Firm <span class="caret">▾</span></button>
+          <ul class="dropdown-menu">
+            <li><a href="#careers">Careers</a></li>
+            <li><a href="#faq">FAQ</a></li>
+            <li><a href="#contact">Contact HR</a></li>
+          </ul>
+        </li>
         <li><a href="#contact">Contact</a></li>
       </ul>
     </div>
@@ -152,6 +260,7 @@
       <p class="role">Human Resources Manager at <strong>A.W. LAW LLC</strong></p>
       <a href="#contact" class="btn">Click me to say hi ✨</a>
       <a href="#about" class="btn ghost">Learn more</a>
+      <a href="#careers" class="btn ghost">View careers</a>
     </div>
   </header>
 
@@ -176,16 +285,40 @@
           <div class="icon">🤝</div>
           <h3>Talent Acquisition</h3>
           <p>Finding and welcoming the right people, with a smooth, thoughtful hiring and onboarding experience.</p>
+          <details>
+            <summary>Read more</summary>
+            <ul>
+              <li>Recruitment for legal and support roles</li>
+              <li>Interview coordination</li>
+              <li>Structured onboarding for new joiners</li>
+            </ul>
+          </details>
         </div>
         <div class="card">
           <div class="icon">🌱</div>
           <h3>People Development</h3>
           <p>Supporting growth through training, performance conversations and clear career pathways.</p>
+          <details>
+            <summary>Read more</summary>
+            <ul>
+              <li>Training and learning programmes</li>
+              <li>Performance reviews and goal setting</li>
+              <li>Career progression planning</li>
+            </ul>
+          </details>
         </div>
         <div class="card">
           <div class="icon">⚖️</div>
           <h3>Employee Relations</h3>
           <p>Fair, consistent HR policies and a trusted ear for colleagues when they need one.</p>
+          <details>
+            <summary>Read more</summary>
+            <ul>
+              <li>HR policies and employee handbook</li>
+              <li>Workplace concerns and support</li>
+              <li>Wellbeing initiatives</li>
+            </ul>
+          </details>
         </div>
       </div>
     </div>
@@ -212,6 +345,59 @@
     </div>
   </section>
 
+  <section id="careers">
+    <div class="wrap reveal">
+      <div class="careers-box">
+        <div>
+          <p class="section-label">Careers</p>
+          <h2>Join A.W. LAW LLC</h2>
+          <p>We're always glad to hear from people who'd like to grow with the firm. Pick the area you're interested in and send me a note. I'll get back to you.</p>
+        </div>
+        <div>
+          <div class="field">
+            <label for="interest">I'm interested in…</label>
+            <select id="interest" class="select">
+              <option value="Legal roles">Legal roles</option>
+              <option value="Paralegal and legal support">Paralegal and legal support</option>
+              <option value="Administration and operations">Administration and operations</option>
+              <option value="Internships">Internships</option>
+              <option value="Something else">Something else</option>
+            </select>
+          </div>
+          <div class="btn-row">
+            <a href="#" id="applyBtn" class="btn small">Send my interest</a>
+            <a href="#faq" class="btn ghost small">Read the FAQ</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="faq" class="experience">
+    <div class="wrap reveal">
+      <p class="section-label">FAQ</p>
+      <h2>Common questions</h2>
+      <div class="faq">
+        <details>
+          <summary>How do I apply for a role at the firm?</summary>
+          <p>Use the "Send my interest" button in the Careers section, or email me directly with your CV and the role you're interested in.</p>
+        </details>
+        <details>
+          <summary>What does the hiring process look like?</summary>
+          <p>Usually an initial chat with HR, followed by an interview with the team you'd be joining. I'll keep you updated at every step.</p>
+        </details>
+        <details>
+          <summary>Do you offer internships?</summary>
+          <p>Internship opportunities come up from time to time. Choose "Internships" in the Careers dropdown to let me know you're interested.</p>
+        </details>
+        <details>
+          <summary>Who can I talk to about an HR matter?</summary>
+          <p>Colleagues can reach out to me anytime. Every conversation is handled with care and discretion.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
   <section id="contact" class="contact">
     <div class="wrap reveal">
       <p class="section-label">Get in touch</p>
@@ -226,8 +412,48 @@
 
   <footer>© <span id="year"></span> Minah · Human Resources Manager, A.W. LAW LLC</footer>
 
+  <button class="to-top" id="toTop" aria-label="Back to top">↑</button>
+
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Mobile menu
+    const menuBtn = document.getElementById("menuBtn");
+    const navLinks = document.getElementById("navLinks");
+    menuBtn.addEventListener("click", () => {
+      const open = navLinks.classList.toggle("open");
+      menuBtn.setAttribute("aria-expanded", open);
+      menuBtn.textContent = open ? "✕" : "☰";
+    });
+
+    // Nav dropdowns
+    const dropdowns = document.querySelectorAll(".dropdown");
+    dropdowns.forEach(dd => {
+      const toggle = dd.querySelector(".dropdown-toggle");
+      toggle.addEventListener("click", e => {
+        e.stopPropagation();
+        const wasOpen = dd.classList.contains("open");
+        dropdowns.forEach(d => { d.classList.remove("open"); d.querySelector(".dropdown-toggle").setAttribute("aria-expanded", "false"); });
+        if (!wasOpen) { dd.classList.add("open"); toggle.setAttribute("aria-expanded", "true"); }
+      });
+    });
+    document.addEventListener("click", () => dropdowns.forEach(d => d.classList.remove("open")));
+    navLinks.querySelectorAll("a").forEach(a => a.addEventListener("click", () => {
+      navLinks.classList.remove("open"); menuBtn.textContent = "☰"; menuBtn.setAttribute("aria-expanded", "false");
+    }));
+
+    // Careers dropdown -> email with subject
+    document.getElementById("applyBtn").addEventListener("click", e => {
+      e.preventDefault();
+      const interest = document.getElementById("interest").value;
+      window.location.href = "mailto:you@example.com?subject=" + encodeURIComponent("Interest in " + interest + " at A.W. LAW LLC");
+    });
+
+    // Back to top
+    const toTop = document.getElementById("toTop");
+    window.addEventListener("scroll", () => toTop.classList.toggle("show", window.scrollY > 500));
+    toTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
     const observer = new IntersectionObserver(entries => {
       entries.forEach(e => { if (e.isIntersecting) e.target.classList.add("visible"); });
     }, { threshold: 0.15 });
